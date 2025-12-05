@@ -17,44 +17,30 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
-      label: 'Chapter 1: Introduction to Physical AI',
+      label: 'Module 1: The Robotic Nervous System (ROS 2)',
       items: [
-        'tutorial-basics/create-a-document',
+        'module-1-ros2',
       ],
     },
     {
       type: 'category',
-      label: 'Chapter 2: Humanoid Robotics Basics',
+      label: 'Module 2: The Digital Twin (Gazebo & Unity)',
       items: [
-        'tutorial-basics/create-a-page',
+        'module-2-digital-twin',
       ],
     },
     {
       type: 'category',
-      label: 'Chapter 3: ROS 2 Fundamentals',
+      label: 'Module 3: The AI-Robot Brain (NVIDIA Isaac)',
       items: [
-        'tutorial-basics/markdown-features',
+        'module-3-isaac',
       ],
     },
     {
       type: 'category',
-      label: 'Chapter 4: Digital Twin Simulation',
+      label: 'Module 4: Vision-Language-Action (VLA)',
       items: [
-        'tutorial-extras/manage-docs-versions',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Chapter 5: Vision-Language-Action Systems',
-      items: [
-        'tutorial-extras/translate-your-site',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Chapter 6: Capstone Project',
-      items: [
-        'tutorial-basics/deploy-your-site',
+        'module-4-vla',
       ],
     },
   ],
