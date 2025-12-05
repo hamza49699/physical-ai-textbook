@@ -67,9 +67,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: '🤖 Physical AI',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Physical AI Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -77,11 +77,33 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Learn',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          label: 'Modules',
+          position: 'left',
+          items: [
+            {
+              label: 'Module 1: ROS 2',
+              to: '/docs/module-1-ros2',
+            },
+            {
+              label: 'Module 2: Digital Twin',
+              to: '/docs/module-2-digital-twin',
+            },
+            {
+              label: 'Module 3: Isaac AI',
+              to: '/docs/module-3-isaac',
+            },
+            {
+              label: 'Module 4: VLA',
+              to: '/docs/module-4-vla',
+            },
+          ],
+        },
+        {to: '/blog', label: 'Resources', position: 'left'},
+        {
+          href: 'https://github.com/hamza49699/physical-ai-textbook',
           label: 'GitHub',
           position: 'right',
         },
@@ -91,11 +113,27 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Curriculum',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Introduction',
               to: '/docs/intro',
+            },
+            {
+              label: 'Module 1: ROS 2',
+              to: '/docs/module-1-ros2',
+            },
+            {
+              label: 'Module 2: Digital Twin',
+              to: '/docs/module-2-digital-twin',
+            },
+            {
+              label: 'Module 3: Isaac AI',
+              to: '/docs/module-3-isaac',
+            },
+            {
+              label: 'Module 4: VLA',
+              to: '/docs/module-4-vla',
             },
           ],
         },
@@ -103,34 +141,59 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'GitHub Discussions',
+              href: 'https://github.com/hamza49699/physical-ai-textbook/discussions',
+            },
+            {
+              label: 'Report Issues',
+              href: 'https://github.com/hamza49699/physical-ai-textbook/issues',
+            },
+            {
+              label: 'Contribute',
+              href: 'https://github.com/hamza49699/physical-ai-textbook/pulls',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              href: 'https://discord.gg/robotics',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Resources',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
+              label: 'ROS 2 Documentation',
+              href: 'https://docs.ros.org/en/humble/',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'NVIDIA Isaac',
+              href: 'https://docs.nvidia.com/isaac/',
+            },
+            {
+              label: 'Gazebo Sim',
+              href: 'http://gazebosim.org/',
+            },
+            {
+              label: 'OpenAI API',
+              href: 'https://platform.openai.com/docs/',
+            },
+          ],
+        },
+        {
+          title: 'Legal',
+          items: [
+            {
+              label: 'CC-BY-4.0 License',
+              href: 'https://creativecommons.org/licenses/by/4.0/',
+            },
+            {
+              label: 'Source Code',
+              href: 'https://github.com/hamza49699/physical-ai-textbook',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} Physical AI Textbook. Made with ❤️ for roboticists. Licensed under CC-BY-4.0.`,
     },
     prism: {
       theme: prismThemes.github,
