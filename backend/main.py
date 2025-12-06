@@ -37,17 +37,19 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[FRONTEND_URL, "http://localhost:3000", "https://*.github.io"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Settings from environment
+# Settings from environment (cloud services)
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://localhost/textbook_rag")
-QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", "")
+QDRANT_URL = os.getenv("QDRANT_URL", "https://your-qdrant-cloud-url.qdrant.io")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", "your-qdrant-api-key")
 COLLECTION_NAME = "physical-ai-textbook"
+PORT = int(os.getenv("PORT", 8000))
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
 # Lightweight embedding model (CPU-only, no GPU dependency)
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"

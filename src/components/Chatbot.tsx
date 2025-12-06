@@ -38,7 +38,12 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/query', {
+      // Use production backend URL or fall back to localhost for development
+      const backendUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://physical-ai-backend.onrender.com/query'
+        : 'http://localhost:8000/query';
+      
+      const response = await fetch(backendUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: input, chapter: null })
