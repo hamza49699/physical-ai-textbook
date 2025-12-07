@@ -38,10 +38,8 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      // Use production backend URL or fall back to localhost for development
-      const backendUrl = process.env.NODE_ENV === 'production' 
-        ? 'https://physical-ai-backend.onrender.com/query'
-        : 'http://localhost:8000/query';
+      // Get backend URL from environment variable
+      const backendUrl = `${process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'}/query`;
       
       const response = await fetch(backendUrl, {
         method: 'POST',

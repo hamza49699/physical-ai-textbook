@@ -2,7 +2,7 @@
 
 ## Architecture
 - **Frontend**: GitHub Pages (Docusaurus)
-- **Backend**: Render.com (FastAPI)
+- **Backend**: Railway.app (FastAPI)
 - **Database**: Neon.tech (PostgreSQL)
 - **Vector DB**: Qdrant Cloud (Free tier)
 
@@ -49,48 +49,58 @@ CREATE INDEX idx_created ON chat_sessions(created_at);
 
 ---
 
-## Step 3: Deploy Backend to Render
+## Step 3: Deploy Backend to Railway
 
-1. Go to https://render.com
-2. Connect GitHub (hamza49699/physical-ai-textbook)
-3. Create new Web Service:
-   - **Name**: physical-ai-backend
-   - **Root Directory**: `physical-ai-textbook/backend`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `python -m uvicorn main:app --host 0.0.0.0 --port $PORT`
-   - **Environment Variables**:
-     ```
-     DATABASE_URL=postgresql://...  (from Neon)
-     QDRANT_URL=https://...         (from Qdrant Cloud)
-     QDRANT_API_KEY=...             (from Qdrant Cloud)
-     FRONTEND_URL=https://hamza699.github.io/physical-ai-textbook
-     PORT=8000
-     ```
-4. Deploy (takes ~2-3 min)
-5. Get URL: `https://physical-ai-backend.onrender.com`
+1. Go to https://railway.app
+2. Sign in with GitHub (hamza49699)
+3. Create new project → Deploy from GitHub repo
+4. Select: `hamza49699/physical-ai-textbook`
+5. Select root directory: `/physical-ai-textbook/backend`
+6. Railway will auto-detect Python
+
+**Configure Environment Variables:**
+- Click `Variables` tab
+- Add:
+  ```
+  DATABASE_URL=postgresql://...  (from Neon)
+  QDRANT_URL=https://...         (from Qdrant Cloud)
+  QDRANT_API_KEY=...             (from Qdrant Cloud)
+  FRONTEND_URL=https://hamza699.github.io/physical-ai-textbook
+  PORT=8000
+  ```
+
+**Configure Build & Start:**
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `python -m uvicorn main:app --host 0.0.0.0 --port $PORT`
+
+7. Click Deploy
+8. Wait 2-3 minutes for deployment
+9. Get URL from Railway dashboard: `https://physical-ai-backend-xxxxx.railway.app`
 
 ---
 
 ## Step 4: Update Frontend Chatbot
 
-Update `src/components/Chatbot.tsx` line ~47:
+Update `src/components/Chatbot.tsx` to use Railway URL:
 
 ```typescript
-// Replace localhost with production URL
-const response = await fetch('https://physical-ai-backend.onrender.com/query', {
+// Replace production backend URL with Railway URL
+const backendUrl = process.env.NODE_ENV === 'production' 
+  ? 'https://physical-ai-backend-xxxxx.railway.app/query'  // Railway URL
+  : 'http://localhost:8000/query';  // Local development
 ```
 
-Rebuild and push to trigger GitHub Pages deploy.
+Get your Railway URL from the Railway dashboard, then rebuild and push to trigger GitHub Pages deploy.
 
 ---
 
 ## Step 5: Ingest Documents
 
-**Endpoint**: `POST https://physical-ai-backend.onrender.com/ingest`
+**Endpoint**: `POST https://physical-ai-backend-xxxxx.railway.app/ingest`
 
 **Example**:
 ```bash
-curl -X POST "https://physical-ai-backend.onrender.com/ingest" \
+curl -X POST "https://physical-ai-backend-xxxxx.railway.app/ingest" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "ROS 2 Fundamentals",
@@ -132,8 +142,8 @@ for doc in docs:
 
 ## Health Checks
 
-- Backend health: `GET https://physical-ai-backend.onrender.com/health`
-- API docs: `GET https://physical-ai-backend.onrender.com/docs`
+- Backend health: `GET https://physical-ai-backend-xxxxx.railway.app/health`
+- API docs: `GET https://physical-ai-backend-xxxxx.railway.app/docs`
 
 ---
 
@@ -158,10 +168,10 @@ for doc in docs:
 
 - **Neon**: 5 GB storage, 1 shared CPU (generous free tier)
 - **Qdrant Cloud**: 2,000 vectors (enough for ~20-30 documents)
-- **Render**: 750 hours/month (free tier)
+- **Railway**: $5 free credit/month, generous free tier
 - Upgrade as needed
 
 ---
 
 ## Cost Estimate (All Free Tier)
-- Total: **$0/month** during launch phase
+- Total: **$0/month** during launch phase (within Railway free credit)
