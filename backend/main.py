@@ -12,6 +12,7 @@ Endpoints:
 """
 
 import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -21,10 +22,14 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
+import cohere
 import uuid
 from datetime import datetime
 import json
+
+# Load environment variables from .env file
+load_dotenv()
 
 # ==================== Configuration ====================
 
@@ -34,7 +39,16 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS configuration
+# Settings from environment (cloud services)
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://localhost/textbook_rag")
+QDRANT_URL = os.getenv("QDRANT_URL", "https://your-qdrant-cloud-url.qdrant.io")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", "your-qdrant-api-key")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
+# Cohere API Configuration
+COHERE_API_KEY = os.getenv("COHERE_API_KEY", "your-cohere-api-key-here")
+COHERE_MODEL = os.getenv("COHERE_MODEL", "command-r-plus")
+cohere_client = cohere.Client(api_key=COHERE_API_KEY) if COHERE_API_KEY != "your-cohere-api-key-here" else None
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[FRONTEND_URL, "http://localhost:3000", "https://*.github.io"],
@@ -42,11 +56,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Settings from environment (cloud services)
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://localhost/textbook_rag")
-QDRANT_URL = os.getenv("QDRANT_URL", "https://your-qdrant-cloud-url.qdrant.io")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", "your-qdrant-api-key")
 COLLECTION_NAME = "physical-ai-textbook"
 PORT = int(os.getenv("PORT", 8000))
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
@@ -62,11 +71,43 @@ TOP_K_RESULTS = 3  # As per FR-016 specification
 
 # ==================== Global Models ====================
 
+# from sentence_transformers import SentenceTransformer
+
+# Deterministic Bag-of-Words Embedder for keyword-based retrieval without ML
+class SimpleBOWEmbedder:
+    def encode(self, text):
+        import hashlib
+        import numpy as np
+        
+        vector = np.zeros(384, dtype=np.float32)
+        # Simple tokenization
+        words = ''.join(c.lower() if c.isalnum() or c.isspace() else ' ' for c in text).split()
+        
+        if not words:
+            return np.random.rand(384).astype(np.float32) # Fallback
+            
+        for word in words:
+            # Hash word to index 0-383
+            idx = int(hashlib.md5(word.encode('utf-8')).hexdigest(), 16) % 384
+            vector[idx] += 1.0
+            
+        # Normalize for cosine similarity
+        norm = np.linalg.norm(vector)
+        if norm > 0:
+            vector = vector / norm
+        else:
+            vector = np.random.rand(384).astype(np.float32)
+            
+        return vector
+
+
 try:
-    embedder = SentenceTransformer(EMBEDDING_MODEL)
-    print(f"✅ Loaded embedding model: {EMBEDDING_MODEL}")
+    # embedder = SentenceTransformer(EMBEDDING_MODEL)
+    print(f"Using SIMPLE BOW embedder for keyword matching")
+    embedder = SimpleBOWEmbedder()
+    print(f"Loaded embedding model: SimpleBOW")
 except Exception as e:
-    print(f"⚠️ Error loading embedder: {e}")
+    print(f"Error loading embedder: {e}")
     embedder = None
 
 
@@ -86,7 +127,7 @@ def init_database():
     """Initialize database tables"""
     conn = get_db_connection()
     if not conn:
-        print("❌ Cannot initialize database - no connection")
+        print("Cannot initialize database - no connection")
         return
     
     cursor = conn.cursor()
@@ -125,9 +166,9 @@ def init_database():
         """)
         
         conn.commit()
-        print("✅ Database initialized successfully")
+        print("Database initialized successfully")
     except Exception as e:
-        print(f"⚠️ Error initializing database: {e}")
+        print(f"Error initializing database: {e}")
         conn.rollback()
     finally:
         cursor.close()
@@ -166,10 +207,10 @@ def ensure_qdrant_collection():
                     distance=Distance.COSINE
                 )
             )
-            print(f"✅ Created Qdrant collection: {COLLECTION_NAME}")
+            print(f"Created Qdrant collection: {COLLECTION_NAME}")
             return True
         except Exception as e:
-            print(f"❌ Error creating collection: {e}")
+            print(f"Error creating collection: {e}")
             return False
 
 
@@ -219,21 +260,25 @@ class HealthStatus(BaseModel):
 @app.on_event("startup")
 async def startup_event():
     """Initialize on application startup"""
-    print("🚀 Starting Physical AI Textbook API...")
+    print("Starting Physical AI Textbook API...", flush=True)
     
     # Initialize database
+    print("DEBUG: Initializing database...", flush=True)
     init_database()
+    print("DEBUG: Database initialized.", flush=True)
     
     # Ensure Qdrant collection exists
+    print("DEBUG: Checking Qdrant...", flush=True)
     ensure_qdrant_collection()
+    print("DEBUG: Qdrant ready.", flush=True)
     
     # Check embedder
     if embedder is None:
-        print("⚠️ Warning: Embedder not loaded")
+        print("Warning: Embedder not loaded", flush=True)
     else:
-        print(f"✅ Embedding model ready: {EMBEDDING_MODEL}")
+        print(f"Embedding model ready: {EMBEDDING_MODEL}", flush=True)
     
-    print("✅ API startup complete")
+    print("API startup complete", flush=True)
 
 
 # ==================== Health Check Endpoints ====================
@@ -326,20 +371,32 @@ def query_rag(request: QueryRequest):
         if not client:
             raise HTTPException(status_code=500, detail="Qdrant unavailable")
         
-        search_results = client.search(
+        # from qdrant_client.models import QueryRequest as QdrantQuery
+
+        
+        search_results = client.query_points(
             collection_name=COLLECTION_NAME,
-            query_vector=query_embedding.tolist(),
-            limit=TOP_K_RESULTS
-        )
+            query=query_embedding.tolist(),
+            limit=5  # Increased to 5 for detailed answers
+        ).points
         
         # Extract context and sources
         context_chunks = []
         sources = []
         total_score = 0
+        seen_content = set()
         
         for result in search_results:
             payload = result.payload
-            context_chunks.append(payload.get("content", ""))
+            content = payload.get("content", "").strip()
+            
+            # Deduplicate content
+            if content in seen_content:
+                continue
+            seen_content.add(content)
+            
+            # Clean up content (remove excessive headers if repeated)
+            context_chunks.append(content)
             
             chapter = payload.get("chapter", "Unknown")
             section = payload.get("section", "Unknown")
@@ -347,17 +404,43 @@ def query_rag(request: QueryRequest):
             total_score += result.score
         
         # Check if out of scope (FR-019)
-        if not context_chunks or total_score < 0.3:
-            response = "This topic is not covered in the textbook."
+        if not context_chunks or total_score < 0.2:
+            response = "This topic is not covered in the textbook. Please try asking about ROS 2, Digital Twins, or Isaac Sim."
             confidence = 0.0
             sources = ["No relevant content found"]
         else:
             # Build response from context
-            context_text = "\n\n".join(context_chunks)
+            formatted_context = "\n\n---\n\n".join(context_chunks)
             confidence = total_score / len(search_results) if search_results else 0.0
             
-            # Generate response (simplified - in production use LLM)
-            response = f"Based on the textbook content:\n\n{context_text}\n\nContext retrieved from: {', '.join(sources)}"
+            # generated_response
+            valid_key = COHERE_API_KEY and "your-cohere-api-key" not in COHERE_API_KEY and "your_key_here" not in COHERE_API_KEY
+            
+            if valid_key:
+                try:
+                    print(f"Generating answer with Cohere... Key prefix: {COHERE_API_KEY[:4]}")
+                    co = cohere.Client(COHERE_API_KEY)
+                    
+                    # Prepare documents for Cohere RAG
+                    rag_docs = [{"text": chunk, "title": src} for chunk, src in zip(context_chunks, sources)]
+                    
+                    chat_response = co.chat(
+                        message=request.query,
+                        documents=rag_docs,
+                        temperature=0.3
+                    )
+                    
+                    response = chat_response.text
+                    # Ensure sources are listed explicitly even if citations are used
+                    response += f"\n\n---\n**Sources**: {', '.join(set(sources))}"
+                    
+                except Exception as e:
+                    print(f"Cohere Generation Error: {e}")
+                    # Fallback
+                    response = f"**Note:** AI generation failed ({str(e)}). Showing raw results:\n\n{formatted_context}\n\n---\nSources: {', '.join(sources)}"
+            else:
+                # Smart Search Mode (Fallback)
+                response = f"**Smart Search Result** (Add COHERE_API_KEY for AI summaries):\n\n{formatted_context}\n\n---\nSources: {', '.join(sources)}"
         
         # Save to chat_sessions (FR-025)
         conn = get_db_connection()
@@ -386,7 +469,35 @@ def query_rag(request: QueryRequest):
         raise HTTPException(status_code=500, detail=f"Query error: {str(e)}")
 
 
-# ==================== Document Ingestion Endpoint ====================
+# ==================== Document Management Endpoints ====================
+
+@app.post("/reset")
+def reset_database():
+    """Reset the database to clear all data"""
+    conn = get_db_connection()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute("TRUNCATE TABLE chat_sessions;")
+            conn.commit()
+            cursor.close()
+            conn.close()
+            
+            # Reset Qdrant
+            client = get_qdrant_client()
+            if client:
+                try:
+                    client.recreate_collection(
+                        collection_name=COLLECTION_NAME,
+                        vectors_config=VectorParams(size=384, distance=Distance.COSINE)
+                    )
+                    return {"status": "success", "message": "Database and Vector DB reset successfully"}
+                except Exception as e:
+                    # Fallback if recreate not supported on mock
+                    return {"status": "warning", "message": f"Qdrant reset limited: {e}"}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Database reset failed: {e}")
+    return {"status": "error", "message": "Database connection failed"}
 
 @app.post("/ingest")
 def ingest_document(request: IngestRequest):
@@ -484,7 +595,7 @@ def ingest_document(request: IngestRequest):
             "section": request.section,
             "chunks_created": len(chunks),
             "embeddings_created": len(embedding_ids),
-            "message": f"✅ Document '{request.title}' ingested successfully"
+            "message": f"Document '{request.title}' ingested successfully"
         }
     
     except HTTPException:
@@ -524,4 +635,4 @@ def list_documents(limit: int = 20):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=PORT)

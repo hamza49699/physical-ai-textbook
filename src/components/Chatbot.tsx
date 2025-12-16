@@ -38,8 +38,14 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      // Get backend URL from environment variable
-      const backendUrl = `${process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'}/query`;
+      // Get backend URL - use localhost in development, production URL in deployed environment
+      // For Docusaurus, we use window.location.hostname to determine environment
+      const isDevelopment = typeof window !== 'undefined' && 
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      
+      const backendUrl = isDevelopment 
+        ? 'http://localhost:8000/query'
+        : 'https://your-production-backend.com/query'; // Update this when deploying to production
       
       const response = await fetch(backendUrl, {
         method: 'POST',
