@@ -1,0 +1,27 @@
+{
+  "id": "module-4-intro",
+  "title": "Module 4 Introduction: Vision-Language-Action (VLA)",
+  "description": "The Final Frontier: Robots That Understand You",
+  "source": "@site/docs/module-4-intro.md",
+  "sourceDirName": ".",
+  "slug": "/module-4-intro",
+  "permalink": "/physical-ai-textbook/docs/module-4-intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-4-intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 3: The AI-Robot Brain (NVIDIA Isaac™)",
+    "permalink": "/physical-ai-textbook/docs/module-3-isaac"
+  },
+  "next": {
+    "title": "Module 4: Vision-Language-Action (VLA)",
+    "permalink": "/physical-ai-textbook/docs/module-4-vla"
+  }
+}

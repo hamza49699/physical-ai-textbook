@@ -1,0 +1,27 @@
+{
+  "id": "module-2-digital-twin",
+  "title": "Module 2: The Digital Twin (Gazebo & Unity)",
+  "description": "Overview",
+  "source": "@site/docs/module-2-digital-twin.md",
+  "sourceDirName": ".",
+  "slug": "/module-2-digital-twin",
+  "permalink": "/physical-ai-textbook/docs/module-2-digital-twin",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-2-digital-twin.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 2 Introduction: The Digital Twin (Gazebo & Unity)",
+    "permalink": "/physical-ai-textbook/docs/module-2-intro"
+  },
+  "next": {
+    "title": "Module 3 Introduction: The AI-Robot Brain (NVIDIA Isaac™)",
+    "permalink": "/physical-ai-textbook/docs/module-3-intro"
+  }
+}

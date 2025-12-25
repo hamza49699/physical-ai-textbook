@@ -1,0 +1,27 @@
+{
+  "id": "module-3-intro",
+  "title": "Module 3 Introduction: The AI-Robot Brain (NVIDIA Isaac™)",
+  "description": "Why NVIDIA Isaac?",
+  "source": "@site/docs/module-3-intro.md",
+  "sourceDirName": ".",
+  "slug": "/module-3-intro",
+  "permalink": "/physical-ai-textbook/docs/module-3-intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-3-intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 2: The Digital Twin (Gazebo & Unity)",
+    "permalink": "/physical-ai-textbook/docs/module-2-digital-twin"
+  },
+  "next": {
+    "title": "Module 3: The AI-Robot Brain (NVIDIA Isaac™)",
+    "permalink": "/physical-ai-textbook/docs/module-3-isaac"
+  }
+}

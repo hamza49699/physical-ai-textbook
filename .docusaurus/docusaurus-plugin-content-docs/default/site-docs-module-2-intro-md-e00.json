@@ -1,0 +1,27 @@
+{
+  "id": "module-2-intro",
+  "title": "Module 2 Introduction: The Digital Twin (Gazebo & Unity)",
+  "description": "Why Digital Twins Matter",
+  "source": "@site/docs/module-2-intro.md",
+  "sourceDirName": ".",
+  "slug": "/module-2-intro",
+  "permalink": "/physical-ai-textbook/docs/module-2-intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-2-intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 1: The Robotic Nervous System (ROS 2)",
+    "permalink": "/physical-ai-textbook/docs/module-1-ros2"
+  },
+  "next": {
+    "title": "Module 2: The Digital Twin (Gazebo & Unity)",
+    "permalink": "/physical-ai-textbook/docs/module-2-digital-twin"
+  }
+}

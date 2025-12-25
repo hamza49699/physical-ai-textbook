@@ -1,0 +1,23 @@
+{
+  "id": "intro",
+  "title": "Welcome to Physical AI & Humanoid Robotics",
+  "description": "🤖 What is Physical AI?",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/physical-ai-textbook/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Module 1 Introduction: The Robotic Nervous System (ROS 2)",
+    "permalink": "/physical-ai-textbook/docs/module-1-intro"
+  }
+}

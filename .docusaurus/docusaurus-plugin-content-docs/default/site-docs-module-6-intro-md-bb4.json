@@ -1,0 +1,23 @@
+{
+  "id": "module-6-intro",
+  "title": "Module 6 Introduction: Autonomous Systems & Real-World Deployment",
+  "description": "From Lab to Production",
+  "source": "@site/docs/module-6-intro.md",
+  "sourceDirName": ".",
+  "slug": "/module-6-intro",
+  "permalink": "/physical-ai-textbook/docs/module-6-intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-6-intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 5 Introduction: Advanced Humanoid Control (Motion & Learning)",
+    "permalink": "/physical-ai-textbook/docs/module-5-intro"
+  }
+}

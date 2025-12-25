@@ -1,0 +1,27 @@
+{
+  "id": "module-4-vla",
+  "title": "Module 4: Vision-Language-Action (VLA)",
+  "description": "Overview",
+  "source": "@site/docs/module-4-vla.md",
+  "sourceDirName": ".",
+  "slug": "/module-4-vla",
+  "permalink": "/physical-ai-textbook/docs/module-4-vla",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-4-vla.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 4 Introduction: Vision-Language-Action (VLA)",
+    "permalink": "/physical-ai-textbook/docs/module-4-intro"
+  },
+  "next": {
+    "title": "Module 5 Introduction: Advanced Humanoid Control (Motion & Learning)",
+    "permalink": "/physical-ai-textbook/docs/module-5-intro"
+  }
+}

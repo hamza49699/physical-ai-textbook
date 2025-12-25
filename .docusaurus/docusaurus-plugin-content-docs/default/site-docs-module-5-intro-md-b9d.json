@@ -1,0 +1,27 @@
+{
+  "id": "module-5-intro",
+  "title": "Module 5 Introduction: Advanced Humanoid Control (Motion & Learning)",
+  "description": "Humanoid Robots: The Ultimate Challenge",
+  "source": "@site/docs/module-5-intro.md",
+  "sourceDirName": ".",
+  "slug": "/module-5-intro",
+  "permalink": "/physical-ai-textbook/docs/module-5-intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-5-intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 4: Vision-Language-Action (VLA)",
+    "permalink": "/physical-ai-textbook/docs/module-4-vla"
+  },
+  "next": {
+    "title": "Module 6 Introduction: Autonomous Systems & Real-World Deployment",
+    "permalink": "/physical-ai-textbook/docs/module-6-intro"
+  }
+}

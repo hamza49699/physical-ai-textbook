@@ -1,0 +1,83 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/physical-ai-textbook/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/physical-ai-textbook/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "intro",
+              "path": "/physical-ai-textbook/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-1-intro",
+              "path": "/physical-ai-textbook/docs/module-1-intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-1-ros2",
+              "path": "/physical-ai-textbook/docs/module-1-ros2",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-2-digital-twin",
+              "path": "/physical-ai-textbook/docs/module-2-digital-twin",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-2-intro",
+              "path": "/physical-ai-textbook/docs/module-2-intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-3-intro",
+              "path": "/physical-ai-textbook/docs/module-3-intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-3-isaac",
+              "path": "/physical-ai-textbook/docs/module-3-isaac",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-4-intro",
+              "path": "/physical-ai-textbook/docs/module-4-intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-4-vla",
+              "path": "/physical-ai-textbook/docs/module-4-vla",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-5-intro",
+              "path": "/physical-ai-textbook/docs/module-5-intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "module-6-intro",
+              "path": "/physical-ai-textbook/docs/module-6-intro",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/physical-ai-textbook/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

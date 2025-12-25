@@ -1,0 +1,27 @@
+{
+  "id": "module-3-isaac",
+  "title": "Module 3: The AI-Robot Brain (NVIDIA Isaac™)",
+  "description": "Overview",
+  "source": "@site/docs/module-3-isaac.md",
+  "sourceDirName": ".",
+  "slug": "/module-3-isaac",
+  "permalink": "/physical-ai-textbook/docs/module-3-isaac",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/hamza49699/physical-ai-textbook/tree/main/docs/module-3-isaac.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Module 3 Introduction: The AI-Robot Brain (NVIDIA Isaac™)",
+    "permalink": "/physical-ai-textbook/docs/module-3-intro"
+  },
+  "next": {
+    "title": "Module 4 Introduction: Vision-Language-Action (VLA)",
+    "permalink": "/physical-ai-textbook/docs/module-4-intro"
+  }
+}
